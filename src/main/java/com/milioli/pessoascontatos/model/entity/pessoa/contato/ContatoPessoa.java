@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -36,10 +38,12 @@ public class ContatoPessoa extends BaseEntity {
     private String nome;
 
     @NotEmpty(message = "Informe um telefone")
+    @Length(max = 11, message = "Informe um telefone válido (DDD + número)")
     @Column(name = "telefone")
     private String telefone;
 
     @NotEmpty(message = "Informe um e-mail")
+    @Email(message = "Informe um e-mail válido")
     @Column(name = "email")
     private String email;
 

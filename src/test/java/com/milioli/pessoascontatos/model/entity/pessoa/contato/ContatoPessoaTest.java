@@ -88,4 +88,21 @@ public class ContatoPessoaTest extends BaseTest {
                 .hasMessageContaining("Informe um e-mail");
     }
 
+    @Test
+    public void deveRetornarErroAoTentarPersistirContatoComEmailInvalido() {
+        final ContatoPessoa contato = new ContatoPessoa(
+                null,
+                ContatoPessoaTestUtils.PESSOA,
+                ContatoPessoaTestUtils.NOME,
+                ContatoPessoaTestUtils.TELEFONE,
+                "nao eh um email"
+        );
+        final Throwable throwable = Assertions.catchThrowable(() ->
+                entityManager.persist(contato));
+
+        Assertions.assertThat(throwable)
+                .isInstanceOf(ConstraintViolationException.class)
+                .hasMessageContaining("Informe um e-mail válido");
+    }
+
 }

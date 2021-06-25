@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -31,7 +32,7 @@ public class Pessoa extends BaseEntity {
     private String nome;
 
     @NotEmpty(message = "Informe um CPF")
-    @Length(max = 11, min = 11, message = "O CPF deve conter 11 números")
+    @CPF(message = "Informe um CPF válido")
     @Column(name = "cpf")
     private String cpf;
 

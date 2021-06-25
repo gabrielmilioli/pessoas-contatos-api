@@ -74,4 +74,21 @@ public class PessoaTest extends BaseTest {
 
     }
 
+    @Test
+    public void deveRetornarErroAoTentarPersistirPessoaComCpfInvalido() {
+        final Pessoa pessoa = new Pessoa(
+                null,
+                PessoaTestUtils.NOME,
+                "12837182344",
+                PessoaTestUtils.DATA_NASCIMENTO
+        );
+
+        final Throwable throwable = Assertions.catchThrowable(() ->
+                entityManager.persist(pessoa));
+
+        Assertions.assertThat(throwable)
+                .isInstanceOf(ConstraintViolationException.class)
+                .hasMessageContaining("Informe um CPF válido");
+    }
+
 }
