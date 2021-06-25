@@ -1,7 +1,12 @@
 package com.milioli.pessoascontatos.model.entity.pessoa;
 
+import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
+import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoaTestUtils;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 public class PessoaTestUtils {
 
@@ -9,6 +14,8 @@ public class PessoaTestUtils {
     public static String NOME = "Gabriel";
     public static String CPF = "09763425964";
     public static LocalDate DATA_NASCIMENTO = LocalDate.of(1996, 12, 13);
+    public static List<ContatoPessoa> CONTATOS = Collections.singletonList(ContatoPessoaTestUtils.constroiContatoPessoaSemId());
+    public static List<ContatoPessoa> CONTATOS_SEM_ID = Collections.singletonList(ContatoPessoaTestUtils.constroiContatoPessoaSemId());
 
     public static Pessoa constroiPessoaSemId() {
         return buildaPessoa()

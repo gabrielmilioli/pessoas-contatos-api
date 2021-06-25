@@ -28,9 +28,9 @@ public class ContatoPessoa extends BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "i_pessoas")
     @NotNull(message = "Informe uma pessoa")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinColumn(name = "i_pessoas", referencedColumnName = "id", insertable = false, updatable = false)
     private Pessoa pessoa;
 
     @NotEmpty(message = "Informe um nome")

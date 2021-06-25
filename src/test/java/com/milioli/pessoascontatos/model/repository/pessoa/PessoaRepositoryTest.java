@@ -43,7 +43,7 @@ public class PessoaRepositoryTest extends BaseTest {
 
     @Test
     public void deveObterUmaPessoaPorId() {
-        final Pessoa pessoa = PessoaTestUtils.constroiPessoaSemId();
+        final Pessoa pessoa = PessoaTestUtils.constroiPessoaComId();
 
         final Pessoa entity = repository.getById(pessoa.getId());
 

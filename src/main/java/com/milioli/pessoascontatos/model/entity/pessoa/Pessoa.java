@@ -1,6 +1,7 @@
 package com.milioli.pessoascontatos.model.entity.pessoa;
 
 import com.milioli.pessoascontatos.base.BaseEntity;
+import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pessoas", schema = BaseEntity.SCHEMA_DEFAULT)
@@ -39,5 +42,8 @@ public class Pessoa extends BaseEntity {
     @NotNull(message = "Informe uma data de nascimento")
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
+
+    @OneToMany(targetEntity = ContatoPessoa.class, mappedBy = "pessoa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ContatoPessoa> contatos = new ArrayList<>();
 
 }

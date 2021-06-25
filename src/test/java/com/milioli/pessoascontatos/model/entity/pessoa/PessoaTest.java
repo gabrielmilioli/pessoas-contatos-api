@@ -14,7 +14,8 @@ public class PessoaTest extends BaseTest {
                 null,
                 PessoaTestUtils.NOME,
                 PessoaTestUtils.CPF,
-                PessoaTestUtils.DATA_NASCIMENTO
+                PessoaTestUtils.DATA_NASCIMENTO,
+                PessoaTestUtils.CONTATOS_SEM_ID
         );
 
         final Pessoa persisted = entityManager.persist(pessoa);
@@ -28,7 +29,8 @@ public class PessoaTest extends BaseTest {
                 null,
                 null,
                 PessoaTestUtils.CPF,
-                PessoaTestUtils.DATA_NASCIMENTO
+                PessoaTestUtils.DATA_NASCIMENTO,
+                PessoaTestUtils.CONTATOS_SEM_ID
         );
 
         final Throwable throwable = Assertions.catchThrowable(() ->
@@ -45,7 +47,8 @@ public class PessoaTest extends BaseTest {
                 null,
                 PessoaTestUtils.NOME,
                 null,
-                PessoaTestUtils.DATA_NASCIMENTO
+                PessoaTestUtils.DATA_NASCIMENTO,
+                PessoaTestUtils.CONTATOS_SEM_ID
         );
 
         final Throwable throwable = Assertions.catchThrowable(() ->
@@ -62,7 +65,8 @@ public class PessoaTest extends BaseTest {
                 null,
                 PessoaTestUtils.NOME,
                 PessoaTestUtils.CPF,
-                null
+                null,
+                PessoaTestUtils.CONTATOS_SEM_ID
         );
 
         final Throwable throwable = Assertions.catchThrowable(() ->
@@ -80,7 +84,8 @@ public class PessoaTest extends BaseTest {
                 null,
                 PessoaTestUtils.NOME,
                 "12837182344",
-                PessoaTestUtils.DATA_NASCIMENTO
+                PessoaTestUtils.DATA_NASCIMENTO,
+                PessoaTestUtils.CONTATOS_SEM_ID
         );
 
         final Throwable throwable = Assertions.catchThrowable(() ->

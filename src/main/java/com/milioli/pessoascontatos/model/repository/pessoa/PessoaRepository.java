@@ -7,4 +7,6 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
     Boolean existsByCpf(String cpf);
 
+    Pessoa getByCpf(String cpf);
+
 }

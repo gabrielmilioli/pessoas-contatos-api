@@ -1,11 +1,15 @@
 package com.milioli.pessoascontatos.service.pessoa;
 
+import com.milioli.pessoascontatos.exception.RegraNegocioException;
 import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
 import com.milioli.pessoascontatos.model.repository.pessoa.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import java.time.LocalDate;
+import java.util.Objects;
 
 @Service
 public class PessoaService implements PessoaServiceI {
@@ -23,6 +27,14 @@ public class PessoaService implements PessoaServiceI {
 
     @Override
     public Pessoa salvar(Pessoa pessoa) {
+        if (Boolean.TRUE.equals(validarCpfExistente(pessoa))) {
+            throw new RegraNegocioException("O CPF já está cadastrado");
+        }
+
+        if (Boolean.TRUE.equals(validarDataNascimento(pessoa))) {
+            throw new RegraNegocioException("A data de nascimento é inválida");
+        }
+
         return repository.save(pessoa);
     }
 
@@ -49,4 +61,16 @@ public class PessoaService implements PessoaServiceI {
         pessoa.setCpf(cpf);
         validator.validate(pessoa);
     }
+
+    @Override
+    public Boolean validarCpfExistente(Pessoa pessoa) {
+        final Pessoa byCpf = repository.getByCpf(pessoa.getCpf());
+        return Objects.nonNull(byCpf) && !byCpf.getId().equals(pessoa.getId());
+    }
+
+    @Override
+    public Boolean validarDataNascimento(Pessoa pessoa) {
+        return pessoa.getDataNascimento().isAfter(LocalDate.now()) || pessoa.getDataNascimento().isEqual(LocalDate.now());
+    }
+
 }
