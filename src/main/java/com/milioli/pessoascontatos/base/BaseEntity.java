@@ -2,10 +2,10 @@ package com.milioli.pessoascontatos.base;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@MappedSuperclass
 public class BaseEntity {
 
     public static final String SCHEMA_DEFAULT = "pessoas_owner";

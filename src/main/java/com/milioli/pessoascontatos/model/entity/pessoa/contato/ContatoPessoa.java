@@ -27,19 +27,19 @@ public class ContatoPessoa extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "i_pessoas")
-    @NotNull(message = "Informe uma pessoa válida")
+    @NotNull(message = "Informe uma pessoa")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Pessoa pessoa;
 
-    @NotEmpty(message = "Informe um nome de contato válido")
+    @NotEmpty(message = "Informe um nome")
     @Column(name = "nome")
     private String nome;
 
-    @NotEmpty(message = "Informe um telefone válido")
+    @NotEmpty(message = "Informe um telefone")
     @Column(name = "telefone")
     private String telefone;
 
-    @NotEmpty(message = "Informe um e-mail válido")
+    @NotEmpty(message = "Informe um e-mail")
     @Column(name = "email")
     private String email;
 

@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -23,14 +25,17 @@ public class Pessoa extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @NotEmpty(message = "Informe um nome válido")
+    @NotEmpty(message = "Informe um nome")
+    @Length(max = 200)
     @Column(name = "nome")
     private String nome;
 
-    @NotEmpty(message = "Informe um CPF válido")
+    @NotEmpty(message = "Informe um CPF")
+    @Length(max = 11, min = 11, message = "O CPF deve conter 11 números")
     @Column(name = "cpf")
     private String cpf;
 
+    @NotNull(message = "Informe uma data de nascimento")
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 
