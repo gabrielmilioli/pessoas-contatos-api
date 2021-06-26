@@ -1,6 +1,7 @@
 package com.milioli.pessoascontatos.model.entity.pessoa;
 
-import com.milioli.pessoascontatos.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.milioli.pessoascontatos.base.entity.BaseEntity;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +44,9 @@ public class Pessoa extends BaseEntity {
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 
+    @JsonIgnoreProperties("pessoa")
     @OneToMany(targetEntity = ContatoPessoa.class, mappedBy = "pessoa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<ContatoPessoa> contatos = new ArrayList<>();
 
 }

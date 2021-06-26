@@ -1,4 +1,4 @@
-package com.milioli.pessoascontatos.base;
+package com.milioli.pessoascontatos.base.entity;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 

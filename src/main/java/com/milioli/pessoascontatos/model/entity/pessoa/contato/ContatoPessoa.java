@@ -1,7 +1,8 @@
 package com.milioli.pessoascontatos.model.entity.pessoa.contato;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.milioli.pessoascontatos.base.BaseEntity;
+import com.milioli.pessoascontatos.base.entity.BaseEntity;
 import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,10 +28,9 @@ public class ContatoPessoa extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @NotNull(message = "Informe uma pessoa")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JoinColumn(name = "i_pessoas", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "contatos"})
+    @JoinColumn(name = "i_pessoas", referencedColumnName = "id")
     private Pessoa pessoa;
 
     @NotEmpty(message = "Informe um nome")

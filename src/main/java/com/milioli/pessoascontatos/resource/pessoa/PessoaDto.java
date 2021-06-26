@@ -1,6 +1,7 @@
 package com.milioli.pessoascontatos.resource.pessoa;
 
-import com.milioli.pessoascontatos.base.dto.BaseDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.milioli.pessoascontatos.base.entity.dto.BaseDto;
 import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
 import com.milioli.pessoascontatos.resource.pessoa.contato.ContatoPessoaDto;
 import lombok.*;
@@ -26,6 +27,7 @@ public class PessoaDto extends BaseDto {
 
     private LocalDate dataNascimento;
 
+    @JsonIgnoreProperties("pessoa")
     private List<ContatoPessoaDto> contatos;
 
     public static Pessoa toEntityWithoutContatos(PessoaDto pessoaDto) {
@@ -69,7 +71,7 @@ public class PessoaDto extends BaseDto {
             build.setContatos(Optional.ofNullable(pessoa.getContatos())
                     .map(contatoPessoas -> contatoPessoas
                             .stream()
-                            .map(ContatoPessoaDto::toDto)
+                            .map(ContatoPessoaDto::toDtoWithoutPessoa)
                             .collect(Collectors.toList())
                     )
                     .orElse(Collections.emptyList()));
@@ -82,6 +84,13 @@ public class PessoaDto extends BaseDto {
         entity.setNome(dto.getNome());
         entity.setCpf(dto.getCpf());
         entity.setDataNascimento(dto.getDataNascimento());
+        entity.setContatos(Optional.ofNullable(dto.getContatos())
+                .map(contatoPessoas -> contatoPessoas
+                        .stream()
+                        .map(ContatoPessoaDto::toEntity)
+                        .collect(Collectors.toList())
+                )
+                .orElse(entity.getContatos()));
         return entity;
     }
 

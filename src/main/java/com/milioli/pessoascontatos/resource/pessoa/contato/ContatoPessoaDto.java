@@ -1,10 +1,13 @@
 package com.milioli.pessoascontatos.resource.pessoa.contato;
 
-import com.milioli.pessoascontatos.base.dto.BaseDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.milioli.pessoascontatos.base.entity.dto.BaseDto;
 import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import com.milioli.pessoascontatos.resource.pessoa.PessoaDto;
 import lombok.*;
+
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -15,6 +18,7 @@ public class ContatoPessoaDto extends BaseDto {
 
     private Long id;
 
+    @JsonIgnoreProperties("contatos")
     private PessoaDto pessoa;
 
     private String nome;
@@ -27,7 +31,9 @@ public class ContatoPessoaDto extends BaseDto {
         return ContatoPessoa.builder()
                 .id(dto.getId())
                 .nome(dto.getNome())
-                .pessoa(PessoaDto.toEntityWithoutContatos(dto.getPessoa()))
+                .pessoa(Optional.ofNullable(dto.getPessoa())
+                        .map(PessoaDto::toEntityWithoutContatos)
+                        .orElse(null))
                 .telefone(dto.getTelefone())
                 .email(dto.getEmail())
                 .build();
@@ -52,4 +58,21 @@ public class ContatoPessoaDto extends BaseDto {
                 .email(contatoPessoa.getEmail())
                 .build();
     }
+
+    public static ContatoPessoaDto toDtoWithoutPessoa(ContatoPessoa contatoPessoa) {
+        return ContatoPessoaDto.builder()
+                .id(contatoPessoa.getId())
+                .nome(contatoPessoa.getNome())
+                .telefone(contatoPessoa.getTelefone())
+                .email(contatoPessoa.getEmail())
+                .build();
+    }
+
+    public static ContatoPessoa fromRepresentation(ContatoPessoa entity, ContatoPessoaDto dto) {
+        entity.setNome(dto.getNome());
+        entity.setTelefone(dto.getTelefone());
+        entity.setEmail(dto.getEmail());
+        return entity;
+    }
+
 }

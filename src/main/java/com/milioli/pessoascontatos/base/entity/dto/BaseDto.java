@@ -1,4 +1,4 @@
-package com.milioli.pessoascontatos.base.dto;
+package com.milioli.pessoascontatos.base.entity.dto;
 
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;

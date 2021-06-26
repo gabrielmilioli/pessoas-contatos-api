@@ -73,5 +73,4 @@ public class PessoaResource {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-
 }
