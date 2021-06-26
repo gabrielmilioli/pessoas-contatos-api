@@ -63,7 +63,10 @@ public class ContatoPessoaResource {
                                     @RequestBody ContatoPessoaDto dto) {
         try {
             final ContatoPessoa contatoPessoa = service.getById(id);
-            final ContatoPessoa fromRepresentation = ContatoPessoaDto.fromRepresentation(contatoPessoa, dto);
+
+            final ContatoPessoa fromRepresentation = ContatoPessoaDto
+                    .updateFromEntity(contatoPessoa, dto.getNome(), dto.getTelefone(), dto.getEmail(), Optional.ofNullable(dto.getPessoa())
+                            .map(pessoaDto -> pessoaService.getById(pessoaDto.getId())).orElse(null));
 
             final ContatoPessoaDto contatoPessoaDto = ContatoPessoaDto.toDto(service.salvar(fromRepresentation));
 

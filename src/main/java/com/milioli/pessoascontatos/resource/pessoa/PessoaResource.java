@@ -40,7 +40,7 @@ public class PessoaResource {
     @PostMapping
     public ResponseEntity salvar(@RequestBody PessoaDto dto) {
         try {
-            final Pessoa pessoa = PessoaDto.toEntity(dto);
+            final Pessoa pessoa = PessoaDto.toEntity(dto, Boolean.TRUE);
             final PessoaDto pessoaDto = PessoaDto.toDto(service.salvar(pessoa), Boolean.TRUE);
 
             return new ResponseEntity(pessoaDto, HttpStatus.CREATED);

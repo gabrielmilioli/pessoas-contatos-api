@@ -2,13 +2,16 @@ package com.milioli.pessoascontatos.service.pessoa;
 
 import com.milioli.pessoascontatos.exception.RegraNegocioException;
 import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
+import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import com.milioli.pessoascontatos.model.repository.pessoa.PessoaRepository;
+import com.milioli.pessoascontatos.service.pessoa.contato.ContatoPessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -16,6 +19,9 @@ public class PessoaService implements PessoaServiceI {
 
     @Autowired
     PessoaRepository repository;
+
+    @Autowired
+    ContatoPessoaService contatoPessoaService;
 
     @Autowired
     LocalValidatorFactoryBean validator;
@@ -35,7 +41,17 @@ public class PessoaService implements PessoaServiceI {
             throw new RegraNegocioException("A data de nascimento é inválida");
         }
 
-        return repository.save(pessoa);
+        final Pessoa save = repository.save(pessoa);
+
+        final List<ContatoPessoa> allByPessoa = contatoPessoaService.findAllByPessoa(save);
+
+        allByPessoa.stream()
+                .filter(contatoPessoa -> pessoa.getContatos()
+                        .stream()
+                        .noneMatch(contato -> contato.getId().equals(contatoPessoa.getId())))
+                .forEach(contatoPessoa -> contatoPessoaService.deletar(contatoPessoa));
+
+        return save;
     }
 
     @Override

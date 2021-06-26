@@ -68,10 +68,15 @@ public class ContatoPessoaDto extends BaseDto {
                 .build();
     }
 
-    public static ContatoPessoa fromRepresentation(ContatoPessoa entity, ContatoPessoaDto dto) {
-        entity.setNome(dto.getNome());
-        entity.setTelefone(dto.getTelefone());
-        entity.setEmail(dto.getEmail());
+    public static ContatoPessoa updateFromEntity(ContatoPessoa entity,
+                                                 String nome,
+                                                 String telefone,
+                                                 String email,
+                                                 Pessoa pessoa) {
+        entity.setNome(nome);
+        entity.setTelefone(telefone);
+        entity.setEmail(email);
+        entity.setPessoa(pessoa);
         return entity;
     }
 

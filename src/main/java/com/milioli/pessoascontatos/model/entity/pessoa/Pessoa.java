@@ -1,5 +1,6 @@
 package com.milioli.pessoascontatos.model.entity.pessoa;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.milioli.pessoascontatos.base.entity.BaseEntity;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
@@ -41,12 +42,21 @@ public class Pessoa extends BaseEntity {
     private String cpf;
 
     @NotNull(message = "Informe uma data de nascimento")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 
     @JsonIgnoreProperties("pessoa")
     @OneToMany(targetEntity = ContatoPessoa.class, mappedBy = "pessoa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<ContatoPessoa> contatos = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                '}';
+    }
 }

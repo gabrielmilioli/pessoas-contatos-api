@@ -39,7 +39,7 @@ public class PessoaDto extends BaseDto {
                 .build();
     }
 
-    public static Pessoa toEntity(PessoaDto pessoaDto) {
+    public static Pessoa toEntity(PessoaDto pessoaDto, Boolean withContatos) {
         final Pessoa build = Pessoa.builder()
                 .id(pessoaDto.getId())
                 .nome(pessoaDto.getNome())
@@ -47,14 +47,16 @@ public class PessoaDto extends BaseDto {
                 .dataNascimento(pessoaDto.getDataNascimento())
                 .build();
 
-        build.setContatos(Optional.ofNullable(pessoaDto.getContatos())
-                .map(contatoPessoaDtos -> contatoPessoaDtos
-                        .stream()
-                        .map(contatoPessoaDto -> ContatoPessoaDto.toEntity(contatoPessoaDto, build))
-                        .collect(Collectors.toList())
-                )
-                .orElse(Collections.emptyList())
-        );
+        if (Boolean.TRUE.equals(withContatos)) {
+            build.setContatos(Optional.ofNullable(pessoaDto.getContatos())
+                    .map(contatoPessoaDtos -> contatoPessoaDtos
+                            .stream()
+                            .map(contatoPessoaDto -> ContatoPessoaDto.toEntity(contatoPessoaDto, build))
+                            .collect(Collectors.toList())
+                    )
+                    .orElse(Collections.emptyList())
+            );
+        }
 
         return build;
     }
@@ -87,10 +89,10 @@ public class PessoaDto extends BaseDto {
         entity.setContatos(Optional.ofNullable(dto.getContatos())
                 .map(contatoPessoas -> contatoPessoas
                         .stream()
-                        .map(ContatoPessoaDto::toEntity)
+                        .map(contatoPessoaDto -> ContatoPessoaDto.toEntity(contatoPessoaDto, entity))
                         .collect(Collectors.toList())
                 )
-                .orElse(entity.getContatos()));
+                .orElse(Collections.emptyList()));
         return entity;
     }
 

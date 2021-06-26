@@ -1,11 +1,14 @@
 package com.milioli.pessoascontatos.service.pessoa.contato;
 
+import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import com.milioli.pessoascontatos.model.repository.pessoa.contato.ContatoPessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import java.util.List;
 
 @Service
 public class ContatoPessoaService implements ContatoPessoaServiceI {
@@ -49,4 +52,9 @@ public class ContatoPessoaService implements ContatoPessoaServiceI {
         contatoPessoa.setEmail(email);
         validator.validate(contatoPessoa);
     }
+
+    public List<ContatoPessoa> findAllByPessoa(Pessoa pessoa) {
+        return repository.findAllByPessoa(pessoa);
+    }
+
 }
