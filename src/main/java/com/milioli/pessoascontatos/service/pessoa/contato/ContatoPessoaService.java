@@ -29,6 +29,7 @@ public class ContatoPessoaService implements ContatoPessoaServiceI {
     @Override
     public ContatoPessoa criar(ContatoPessoa contatoPessoa) {
         contatoPessoa.setDataHoraCriacao(LocalDateTime.now());
+        contatoPessoa.setDataHoraAlteracao(LocalDateTime.now());
         return repository.save(contatoPessoa);
     }
 

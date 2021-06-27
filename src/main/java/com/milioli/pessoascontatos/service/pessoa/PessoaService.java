@@ -38,6 +38,7 @@ public class PessoaService implements PessoaServiceI {
         validarDataNascimento(pessoa);
 
         pessoa.setDataHoraCriacao(LocalDateTime.now());
+        pessoa.setDataHoraAlteracao(LocalDateTime.now());
 
         final Pessoa save = repository.save(pessoa);
 
