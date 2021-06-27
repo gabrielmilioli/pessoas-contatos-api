@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+import static com.milioli.pessoascontatos.exception.RegraNegocioException.extractMessageFromException;
+
 @RestController
 @RequestMapping("/api/pessoas")
 @RequiredArgsConstructor
@@ -20,8 +22,12 @@ public class PessoaResource {
 
     @GetMapping("{id}")
     public ResponseEntity getById(@PathVariable("id") Long id) {
-        final Pessoa pessoa = service.getById(id);
-        return new ResponseEntity(PessoaDto.toDto(pessoa, Boolean.TRUE), HttpStatus.OK);
+        try {
+            final Pessoa pessoa = service.getById(id);
+            return new ResponseEntity(PessoaDto.toDto(pessoa, Boolean.TRUE), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(extractMessageFromException(e));
+        }
     }
 
     @GetMapping
@@ -45,7 +51,7 @@ public class PessoaResource {
 
             return new ResponseEntity(pessoaDto, HttpStatus.CREATED);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(extractMessageFromException(e));
         }
     }
 
@@ -60,17 +66,19 @@ public class PessoaResource {
 
             return new ResponseEntity(pessoaDto, HttpStatus.CREATED);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(extractMessageFromException(e));
         }
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity deletar(@PathVariable("id") Long id) {
-        final Pessoa pessoa = service.getById(id);
-
-        service.deletar(pessoa);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        try {
+            final Pessoa pessoa = service.getById(id);
+            service.deletar(pessoa);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(extractMessageFromException(e));
+        }
     }
 
 }

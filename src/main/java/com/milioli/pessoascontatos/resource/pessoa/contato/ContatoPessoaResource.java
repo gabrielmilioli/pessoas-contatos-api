@@ -1,5 +1,6 @@
 package com.milioli.pessoascontatos.resource.pessoa.contato;
 
+import com.milioli.pessoascontatos.exception.RegraNegocioException;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import com.milioli.pessoascontatos.service.pessoa.PessoaService;
 import com.milioli.pessoascontatos.service.pessoa.contato.ContatoPessoaService;
@@ -10,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Optional;
+
+import static com.milioli.pessoascontatos.exception.RegraNegocioException.extractMessageFromException;
 
 @RestController
 @RequestMapping("/api/pessoas/contatos")
@@ -23,8 +27,12 @@ public class ContatoPessoaResource {
 
     @GetMapping("{id}")
     public ResponseEntity getById(@PathVariable("id") Long id) {
-        final ContatoPessoa contatoPessoa = service.getById(id);
-        return new ResponseEntity(ContatoPessoaDto.toDto(contatoPessoa), HttpStatus.OK);
+        try {
+            final ContatoPessoa contatoPessoa = service.getById(id);
+            return new ResponseEntity(ContatoPessoaDto.toDto(contatoPessoa), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(extractMessageFromException(e));
+        }
     }
 
     @GetMapping
@@ -54,7 +62,7 @@ public class ContatoPessoaResource {
 
             return new ResponseEntity(contatoPessoaDto, HttpStatus.CREATED);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(extractMessageFromException(e));
         }
     }
 
@@ -72,17 +80,19 @@ public class ContatoPessoaResource {
 
             return new ResponseEntity(contatoPessoaDto, HttpStatus.CREATED);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(extractMessageFromException(e));
         }
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity deletar(@PathVariable("id") Long id) {
-        final ContatoPessoa contatoPessoa = service.getById(id);
-
-        service.deletar(contatoPessoa);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        try{
+            final ContatoPessoa contatoPessoa = service.getById(id);
+            service.deletar(contatoPessoa);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(extractMessageFromException(e));
+        }
     }
 
 }
