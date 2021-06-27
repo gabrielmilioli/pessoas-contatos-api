@@ -1,6 +1,5 @@
 package com.milioli.pessoascontatos.resource.pessoa.contato;
 
-import com.milioli.pessoascontatos.exception.RegraNegocioException;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import com.milioli.pessoascontatos.service.pessoa.PessoaService;
 import com.milioli.pessoascontatos.service.pessoa.contato.ContatoPessoaService;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolationException;
 import java.util.Optional;
 
 import static com.milioli.pessoascontatos.exception.RegraNegocioException.extractMessageFromException;
@@ -55,10 +53,10 @@ public class ContatoPessoaResource {
     }
 
     @PostMapping
-    public ResponseEntity salvar(@RequestBody ContatoPessoaDto dto) {
+    public ResponseEntity criar(@RequestBody ContatoPessoaDto dto) {
         try {
             final ContatoPessoa contatoPessoa = ContatoPessoaDto.toEntity(dto);
-            final ContatoPessoaDto contatoPessoaDto = ContatoPessoaDto.toDto(service.salvar(contatoPessoa));
+            final ContatoPessoaDto contatoPessoaDto = ContatoPessoaDto.toDto(service.criar(contatoPessoa));
 
             return new ResponseEntity(contatoPessoaDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -76,7 +74,7 @@ public class ContatoPessoaResource {
                     .updateFromEntity(contatoPessoa, dto.getNome(), dto.getTelefone(), dto.getEmail(), Optional.ofNullable(dto.getPessoa())
                             .map(pessoaDto -> pessoaService.getById(pessoaDto.getId())).orElse(null));
 
-            final ContatoPessoaDto contatoPessoaDto = ContatoPessoaDto.toDto(service.salvar(fromRepresentation));
+            final ContatoPessoaDto contatoPessoaDto = ContatoPessoaDto.toDto(service.criar(fromRepresentation));
 
             return new ResponseEntity(contatoPessoaDto, HttpStatus.CREATED);
         } catch (Exception e) {

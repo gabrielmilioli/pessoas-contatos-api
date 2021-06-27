@@ -8,7 +8,9 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ContatoPessoaService implements ContatoPessoaServiceI {
@@ -25,7 +27,14 @@ public class ContatoPessoaService implements ContatoPessoaServiceI {
     }
 
     @Override
-    public ContatoPessoa salvar(ContatoPessoa contatoPessoa) {
+    public ContatoPessoa criar(ContatoPessoa contatoPessoa) {
+        contatoPessoa.setDataHoraCriacao(LocalDateTime.now());
+        return repository.save(contatoPessoa);
+    }
+
+    @Override
+    public ContatoPessoa atualizar(ContatoPessoa contatoPessoa) {
+        contatoPessoa.setDataHoraAlteracao(LocalDateTime.now());
         return repository.save(contatoPessoa);
     }
 
@@ -44,13 +53,6 @@ public class ContatoPessoaService implements ContatoPessoaServiceI {
                         .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING));
 
         return repository.findAll(example, pageRequest);
-    }
-
-    @Override
-    public void validarEmail(String email) {
-        final ContatoPessoa contatoPessoa = new ContatoPessoa();
-        contatoPessoa.setEmail(email);
-        validator.validate(contatoPessoa);
     }
 
     public List<ContatoPessoa> findAllByPessoa(Pessoa pessoa) {

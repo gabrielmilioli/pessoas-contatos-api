@@ -8,12 +8,12 @@ public interface ContatoPessoaServiceI {
 
     ContatoPessoa getById(Long id);
 
-    ContatoPessoa salvar(ContatoPessoa contatoPessoa);
+    ContatoPessoa criar(ContatoPessoa contatoPessoa);
+
+    ContatoPessoa atualizar(ContatoPessoa contatoPessoa);
 
     void deletar(ContatoPessoa contatoPessoa);
 
     Page<ContatoPessoa> buscar(Integer offset, Integer limit, Sort sort, ContatoPessoa filtro);
-
-    void validarEmail(String email);
 
 }

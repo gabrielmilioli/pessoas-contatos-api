@@ -44,10 +44,10 @@ public class PessoaResource {
     }
 
     @PostMapping
-    public ResponseEntity salvar(@RequestBody PessoaDto dto) {
+    public ResponseEntity criar(@RequestBody PessoaDto dto) {
         try {
             final Pessoa pessoa = PessoaDto.toEntity(dto, Boolean.TRUE);
-            final PessoaDto pessoaDto = PessoaDto.toDto(service.salvar(pessoa), Boolean.TRUE);
+            final PessoaDto pessoaDto = PessoaDto.toDto(service.criar(pessoa), Boolean.TRUE);
 
             return new ResponseEntity(pessoaDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class PessoaResource {
             final Pessoa pessoa = service.getById(id);
             final Pessoa fromRepresentation = PessoaDto.fromRepresentation(pessoa, dto);
 
-            final PessoaDto pessoaDto = PessoaDto.toDto(service.salvar(fromRepresentation), Boolean.TRUE);
+            final PessoaDto pessoaDto = PessoaDto.toDto(service.atualizar(fromRepresentation), Boolean.TRUE);
 
             return new ResponseEntity(pessoaDto, HttpStatus.CREATED);
         } catch (Exception e) {
