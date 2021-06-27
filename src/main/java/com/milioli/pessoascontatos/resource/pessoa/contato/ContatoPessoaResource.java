@@ -76,7 +76,7 @@ public class ContatoPessoaResource {
 
             final ContatoPessoaDto contatoPessoaDto = ContatoPessoaDto.toDto(service.criar(fromRepresentation));
 
-            return new ResponseEntity(contatoPessoaDto, HttpStatus.CREATED);
+            return new ResponseEntity(contatoPessoaDto, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(extractMessageFromException(e));
         }

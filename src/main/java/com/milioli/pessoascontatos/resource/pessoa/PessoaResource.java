@@ -64,7 +64,7 @@ public class PessoaResource {
 
             final PessoaDto pessoaDto = PessoaDto.toDto(service.atualizar(fromRepresentation), Boolean.TRUE);
 
-            return new ResponseEntity(pessoaDto, HttpStatus.CREATED);
+            return new ResponseEntity(pessoaDto, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(extractMessageFromException(e));
         }

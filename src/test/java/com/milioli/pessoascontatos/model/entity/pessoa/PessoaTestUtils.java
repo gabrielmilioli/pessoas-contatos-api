@@ -2,9 +2,9 @@ package com.milioli.pessoascontatos.model.entity.pessoa;
 
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoaTestUtils;
+import com.milioli.pessoascontatos.resource.pessoa.PessoaDto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 

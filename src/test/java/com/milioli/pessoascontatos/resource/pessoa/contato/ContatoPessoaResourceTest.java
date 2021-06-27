@@ -1,10 +1,12 @@
-package com.milioli.pessoascontatos.resource.pessoa;
+package com.milioli.pessoascontatos.resource.pessoa.contato;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.milioli.pessoascontatos.base.BaseResourceTest;
-import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
 import com.milioli.pessoascontatos.model.entity.pessoa.PessoaTestUtils;
+import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
+import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoaTestUtils;
 import com.milioli.pessoascontatos.service.pessoa.PessoaService;
+import com.milioli.pessoascontatos.service.pessoa.contato.ContatoPessoaService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,41 +25,45 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
-@WebMvcTest(controllers = PessoaResource.class)
-public class PessoaResourceTest extends BaseResourceTest {
+@WebMvcTest(controllers = ContatoPessoaResource.class)
+public class ContatoPessoaResourceTest extends BaseResourceTest {
 
     @Autowired
     MockMvc mvc;
 
     @MockBean
-    PessoaService service;
+    ContatoPessoaService service;
+
+    @MockBean
+    PessoaService pessoaService;
 
     @Test
-    public void deveObterPessoaPorId() throws Exception {
-        final Pessoa pessoa = PessoaTestUtils.constroiPessoaComId();
+    public void deveObterContatoPorId() throws Exception {
+        final ContatoPessoa contato = ContatoPessoaTestUtils.constroiContatoPessoaComId();
 
-        Mockito.when(service.getById(anyLong())).thenReturn(pessoa);
+        Mockito.when(service.getById(anyLong())).thenReturn(contato);
 
         final MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get(API_PESSOAS_PATH.concat(pessoa.getId().toString()))
+                .get(API_PESSOAS_CONTATOS_PATH.concat(contato.getId().toString()))
                 .accept(MediaType.APPLICATION_JSON);
 
         mvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("id").value(pessoa.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("nome").value(pessoa.getNome()));
+                .andExpect(MockMvcResultMatchers.jsonPath("id").value(contato.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("nome").value(contato.getNome()));
     }
 
     @Test
-    public void deveRetornarPaginacaoPessoa() throws Exception {
-        final Pessoa pessoa = PessoaTestUtils.constroiPessoaComId();
+    public void deveRetornarPaginacaoContatoPessoa() throws Exception {
+        final ContatoPessoa contato = ContatoPessoaTestUtils.constroiContatoPessoaComId();
+        contato.setPessoa(PessoaTestUtils.constroiPessoaComId());
 
-        final List<Pessoa> pessoas = Collections.singletonList(pessoa);
+        final List<ContatoPessoa> contatos = Collections.singletonList(contato);
 
-        Mockito.when(service.buscar(any(), any(), any(), any())).thenReturn(new PageImpl(pessoas));
+        Mockito.when(service.buscar(any(), any(), any(), any())).thenReturn(new PageImpl(contatos));
 
         final MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get(API_PESSOAS_PATH)
+                .get(API_PESSOAS_CONTATOS_PATH)
                 .accept(MediaType.APPLICATION_JSON);
 
         mvc.perform(request)
@@ -66,17 +72,16 @@ public class PessoaResourceTest extends BaseResourceTest {
     }
 
     @Test
-    public void deveCriarPessoa() throws Exception {
-        final Pessoa pessoaPersistida = PessoaTestUtils.constroiPessoaComId();
-        final PessoaDto pessoaDto = PessoaDto.toDto(
-                PessoaTestUtils.constroiPessoaSemId(), Boolean.TRUE);
+    public void deveCriarContatoPessoa() throws Exception {
+        final ContatoPessoa contatoPersistida = ContatoPessoaTestUtils.constroiContatoPessoaComId();
+        final ContatoPessoaDto contatoDto = ContatoPessoaDto.toDto(ContatoPessoaTestUtils.constroiContatoPessoaSemId());
 
-        Mockito.when(service.criar(any())).thenReturn(pessoaPersistida);
+        Mockito.when(service.criar(any())).thenReturn(contatoPersistida);
 
-        String json = new ObjectMapper().writeValueAsString(pessoaDto);
+        String json = new ObjectMapper().writeValueAsString(contatoDto);
 
         final MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(API_PESSOAS_PATH)
+                .post(API_PESSOAS_CONTATOS_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json);
