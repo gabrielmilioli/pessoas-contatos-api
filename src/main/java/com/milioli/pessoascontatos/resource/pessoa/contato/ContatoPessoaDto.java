@@ -1,7 +1,6 @@
 package com.milioli.pessoascontatos.resource.pessoa.contato;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.milioli.pessoascontatos.base.entity.dto.BaseDto;
 import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import com.milioli.pessoascontatos.resource.pessoa.PessoaDto;
@@ -14,7 +13,7 @@ import java.util.Optional;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContatoPessoaDto extends BaseDto {
+public class ContatoPessoaDto {
 
     private Long id;
 

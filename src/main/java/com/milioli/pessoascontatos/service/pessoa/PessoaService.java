@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,9 +36,6 @@ public class PessoaService implements PessoaServiceI {
         validarCpfExistente(pessoa);
         validarDataNascimento(pessoa);
 
-        pessoa.setDataHoraCriacao(LocalDateTime.now());
-        pessoa.setDataHoraAlteracao(LocalDateTime.now());
-
         final Pessoa save = repository.save(pessoa);
 
         pessoa.getContatos()
@@ -55,8 +51,6 @@ public class PessoaService implements PessoaServiceI {
     public Pessoa atualizar(Pessoa pessoa) {
         validarCpfExistente(pessoa);
         validarDataNascimento(pessoa);
-
-        pessoa.setDataHoraAlteracao(LocalDateTime.now());
 
         final Pessoa save = repository.save(pessoa);
 

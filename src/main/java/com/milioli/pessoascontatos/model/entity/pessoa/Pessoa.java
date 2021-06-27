@@ -2,7 +2,6 @@ package com.milioli.pessoascontatos.model.entity.pessoa;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.milioli.pessoascontatos.base.entity.BaseEntity;
 import com.milioli.pessoascontatos.model.entity.pessoa.contato.ContatoPessoa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,18 +9,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "pessoas", schema = BaseEntity.SCHEMA_DEFAULT)
+@Table(name = "pessoas", schema = "pessoas_owner")
 @Builder
 @Data
 @NoArgsConstructor
@@ -51,14 +48,6 @@ public class Pessoa {
     @JsonIgnoreProperties("pessoa")
     @OneToMany(targetEntity = ContatoPessoa.class, mappedBy = "pessoa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ContatoPessoa> contatos = new ArrayList<>();
-
-    @Column(name = "aud_dh_criacao")
-    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
-    private LocalDateTime dataHoraCriacao;
-
-    @Column(name = "aud_dh_alteracao")
-    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
-    private LocalDateTime dataHoraAlteracao;
 
     @Override
     public String toString() {

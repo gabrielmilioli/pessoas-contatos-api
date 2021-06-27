@@ -2,11 +2,6 @@ package com.milioli.pessoascontatos.resource.pessoa;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.milioli.pessoascontatos.base.entity.dto.BaseDto;
 import com.milioli.pessoascontatos.model.entity.pessoa.Pessoa;
 import com.milioli.pessoascontatos.resource.pessoa.contato.ContatoPessoaDto;
 import lombok.*;
@@ -22,7 +17,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PessoaDto extends BaseDto {
+public class PessoaDto {
 
     private Long id;
 
