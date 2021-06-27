@@ -41,13 +41,11 @@ public class PessoaService implements PessoaServiceI {
 
         final Pessoa save = repository.save(pessoa);
 
-        final List<ContatoPessoa> allByPessoa = contatoPessoaService.findAllByPessoa(save);
-
-        allByPessoa.stream()
-                .filter(contatoPessoa -> pessoa.getContatos()
-                        .stream()
-                        .noneMatch(contato -> contato.getId().equals(contatoPessoa.getId())))
-                .forEach(contatoPessoa -> contatoPessoaService.deletar(contatoPessoa));
+        pessoa.getContatos()
+                .forEach(contatoPessoa -> {
+                    contatoPessoa.setPessoa(save);
+                    contatoPessoaService.criar(contatoPessoa);
+                });
 
         return save;
     }
